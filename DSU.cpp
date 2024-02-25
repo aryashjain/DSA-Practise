@@ -3,11 +3,15 @@
 #include<bits/stdc++.h>
 using namespace std;
 class DisjointSet {
-  vector<int> rank, parent;
+  vector<int> rank, parent, size;
+
+// can use either union by size or Union by Rank
 public:
   DisjointSet(int n){
     rank.resize(n+1,0);
     parent.resize(n+1,0);
+    // initially size is 1;
+    size.resize(n+1,1);
     for(int i =0; i<=n; i++){
       parent[i] =i;
     }
@@ -35,9 +39,23 @@ public:
           // u became a parent and hence increasing
           rank[ultimateParentOfU]++;
     }
+  }
 
 
+  void unionBySize(int u, int v) {
+    int ultimateParentOfU = findUPar(u);
+    int ultimateParentOfV = findUPar(v);
 
+    if(ultimateParentOfV == ultimateParentOfU) return;
+    // attach to the larger part... and change the rank if equal
+    if(size[ultimateParentOfU]<size[ultimateParentOfV]) {
+      parent[ultimateParentOfU] = ultimateParentOfV;
+       size[ultimateParentOfV] += size[ultimateParentOfU];
+    }
+    else  {
+      parent[ultimateParentOfV]= ultimateParentOfU;
+      size[ultimateParentOfU] += size[ultimateParentOfV];
+    }
   }
   void checkUltimateParent(int u , int v){
 
@@ -79,7 +97,20 @@ int main() {
 
    ds.checkUltimateParent(3,5);
 
+
+
+   DisjointSet dsBySz(7);
+   dsBySz.unionBySize(1,2);
+   dsBySz.unionBySize(2,3);
+   dsBySz.unionBySize(4,5);
+   dsBySz.unionBySize(6,7);
+
+   dsBySz.checkUltimateParent(3,5);
    
+   dsBySz.unionBySize(3,5);
+   dsBySz.unionBySize(5,6);
+   dsBySz.checkUltimateParent(3,5);
+
 
 
     }
