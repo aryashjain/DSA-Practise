@@ -31,7 +31,7 @@ public:
     if(rank[ultimateParentOfU]<rank[ultimateParentOfV]) {
       parent[ultimateParentOfU] = ultimateParentOfV;
     }
-    else if(rank[ultimateParentOfU]<rank[ultimateParentOfV]) {
+    else if(rank[ultimateParentOfU]>rank[ultimateParentOfV]) {
       parent[ultimateParentOfV]= ultimateParentOfU;
     }
     else { // in case of equal
